@@ -29,8 +29,3 @@ st.subheader('Gráfica de Valores Reales y Pronósticos')
 
 # Configurar el estilo de las gráficas
 plt.style.use('seaborn-darkgrid')
-
-fig, ax = plt.subplots(figsize=(12, 8))
-
-# Colores para cada ticker
-colors = {'AAPL': 'blue', 'MSFT': 'green', 'AMZN': 'orange'}
