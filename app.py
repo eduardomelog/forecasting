@@ -17,3 +17,12 @@ end_date = st.date_input('Fecha de fin', min_value=start_date, max_value=pd.to_d
 
 # Input de número de días de pronóstico
 forecast_days = st.slider('Número de días para el pronóstico', min_value=1, max_value=30, value=10)
+
+# Filtrar el DataFrame por las fechas seleccionadas
+filtered_df = df[(df['ds'] >= pd.to_datetime(start_date)) & (df['ds'] <= pd.to_datetime(end_date))]
+
+# Filtrar el DataFrame por el número de días de pronóstico
+forecast_filtered_df = filtered_df.tail(forecast_days)
+
+# Gráficas
+st.subheader('Gráfica de Valores Reales y Pronósticos')
