@@ -1,70 +1,44 @@
-import yfinance as yf
-from prophet import Prophet
+import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-from datetime import datetime, timedelta
-import streamlit as st
 
-# Set up Streamlit app
-st.title("Stock Price Prediction with Prophet")
-st.write("This app allows you to predict stock prices using Prophet. You can choose the start date for historical data and the number of prediction days.")
+# Cargar el DataFrame desde el archivo CSV
+df = pd.read_csv('stock_forecast.csv')
 
-# User inputs
-start_date = st.date_input("Select start date for historical data (min: 01-01-2022)", value=datetime(2022, 1, 1), min_value=datetime(2022, 1, 1), max_value=datetime.now().date())
-prediction_days = st.slider("Select number of prediction days", min_value=1, max_value=30, value=10)
+# Convertir la columna 'ds' a tipo datetime
+df['ds'] = pd.to_datetime(df['ds'])
 
-# Define the stock symbol for Apple in a list
-stocks = ['AAPL']
+# Título de la aplicación
+st.title('Pronóstico de Acciones')
 
-# Fetch data from Yahoo Finance
-stock_data = {}
-for stock in stocks:
-    stock_data[stock] = yf.download(stock, start=start_date)
+# Input de fecha de inicio y fin
+start_date = st.date_input('Fecha de inicio', min_value=pd.to_datetime('2022-01-01'), max_value=pd.to_datetime('2024-08-09'))
+end_date = st.date_input('Fecha de fin', min_value=start_date, max_value=pd.to_datetime('2024-08-09'))
 
-# Prepare the data for Prophet
-prepared_data = {}
-for stock, data in stock_data.items():
-    df = data[['Close']].reset_index()
-    df.rename(columns={'Date': 'ds', 'Close': 'y'}, inplace=True)
-    prepared_data[stock] = df
+# Input de número de días de pronóstico
+forecast_days = st.slider('Número de días para el pronóstico', min_value=1, max_value=30, value=10)
 
-# Train a forecasting model for AAPL
-models = {}
-predictions = {}
-for stock, df in prepared_data.items():
-    model = Prophet(yearly_seasonality=True, daily_seasonality=False)
-    model.fit(df)
-    future = model.make_future_dataframe(periods=prediction_days)
-    forecast = model.predict(future)
-    models[stock] = model
-    predictions[stock] = forecast
+# Filtrar el DataFrame por las fechas seleccionadas
+filtered_df = df[(df['ds'] >= pd.to_datetime(start_date)) & (df['ds'] <= pd.to_datetime(end_date))]
 
-# Display the last 3 months of data
-for stock, data in stock_data.items():
-    last_three_months = data[data.index >= (data.index.max() - pd.DateOffset(months=3))]
-    
-    st.write(f"## Last 3 months of data for {stock}")
-    st.line_chart(last_three_months['Close'])
+# Filtrar el DataFrame por el número de días de pronóstico
+forecast_filtered_df = filtered_df.tail(forecast_days)
 
-# Display predictions with customizable prediction days
-for stock, forecast in predictions.items():
-    last_period = forecast.iloc[-(30+prediction_days):]
-    
-    fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot(np.array(last_period['ds'][:-prediction_days]), last_period['yhat'][:-prediction_days], label='Historical Data', color='dodgerblue', linewidth=2)
-    ax.plot(np.array(last_period['ds'][-prediction_days:]), last_period['yhat'][-prediction_days:], linestyle='--', label='Prediction', color='darkorange', linewidth=2)
-    ax.fill_between(np.array(last_period['ds']), last_period['yhat_lower'], last_period['yhat_upper'], color='orange', alpha=0.2)
-    
-    today_minus_one = datetime.now().date() - timedelta(days=1)
-    ax.axvline(x=pd.to_datetime(today_minus_one), color='red', linestyle='--', label=f'{today_minus_one}')
-    
-    ax.set_title(f"Prediction for {stock} - Last 30 days and {prediction_days} future days", fontsize=16)
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("Close Price", fontsize=12)
-    ax.legend(fontsize=12)
-    plt.xticks(rotation=45)
-    plt.grid(True)
-    
-    st.write(f"## Prediction for {stock}")
-    st.pyplot(fig)
+# Gráficas
+st.subheader('Gráfica de Valores Reales y Pronósticos')
+
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Graficar los valores reales y pronósticos para cada ticker
+tickers = ['AAPL', 'MSFT', 'AMZN']
+for ticker in tickers:
+    ax.plot(filtered_df['ds'], filtered_df[f'{ticker}_real'], label=f'{ticker} Real')
+    ax.plot(forecast_filtered_df['ds'], forecast_filtered_df[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico')
+
+ax.set_xlabel('Fecha')
+ax.set_ylabel('Precio Ajustado')
+ax.set_title('Pronóstico vs Real')
+ax.legend()
+plt.xticks(rotation=45)
+
+st.pyplot(fig)
