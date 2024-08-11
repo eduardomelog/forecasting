@@ -54,4 +54,4 @@ plt.yticks(fontsize=12)
 
 st.pyplot(fig)
 
-filtered_df
+df
