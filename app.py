@@ -11,6 +11,9 @@ df['ds'] = pd.to_datetime(df['ds'])
 # Título de la aplicación
 st.title('Pronóstico de Acciones')
 
+# Selectbox para escoger una acción
+ticker = st.selectbox('Selecciona una acción:', options=['AAPL', 'MSFT', 'AMZN'])
+
 # Input de fecha de inicio y fin
 start_date = st.date_input('Fecha de inicio', min_value=pd.to_datetime('2022-01-01'), max_value=pd.to_datetime('2024-08-09'))
 end_date = st.date_input('Fecha de fin', min_value=start_date, max_value=pd.to_datetime('2024-08-09'))
@@ -25,23 +28,18 @@ filtered_df = df[(df['ds'] >= pd.to_datetime(start_date)) & (df['ds'] <= pd.to_d
 forecast_filtered_df = filtered_df.tail(forecast_days)
 
 # Gráficas
-st.subheader('Gráfica de Valores Reales y Pronósticos')
+st.subheader(f'Gráfica de Valores Reales y Pronósticos para {ticker}')
 
 fig, ax = plt.subplots(figsize=(12, 8))
 
-# Colores para cada ticker
-colors = {'AAPL': 'blue', 'MSFT': 'green', 'AMZN': 'orange'}
-
-# Graficar los valores reales y pronósticos para cada ticker
-tickers = ['AAPL', 'MSFT', 'AMZN']
-for ticker in tickers:
-    ax.plot(filtered_df['ds'], filtered_df[f'{ticker}_real'], label=f'{ticker} Real', color=colors[ticker], linewidth=2)
-    ax.plot(forecast_filtered_df['ds'], forecast_filtered_df[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico', color=colors[ticker], linewidth=2)
+# Graficar los valores reales y pronósticos para la acción seleccionada
+ax.plot(filtered_df['ds'], filtered_df[f'{ticker}_real'], label=f'{ticker} Real', color='blue', linewidth=2)
+ax.plot(forecast_filtered_df['ds'], forecast_filtered_df[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico', color='orange', linewidth=2)
 
 # Personalizar la gráfica
 ax.set_xlabel('Fecha', fontsize=14)
 ax.set_ylabel('Precio Ajustado', fontsize=14)
-ax.set_title('Pronóstico vs Real', fontsize=18, fontweight='bold')
+ax.set_title(f'Pronóstico vs Real para {ticker}', fontsize=18, fontweight='bold')
 ax.legend(loc='upper left', fontsize=12)
 ax.grid(True, linestyle='--', linewidth=0.5)
 plt.xticks(rotation=45, fontsize=12)
