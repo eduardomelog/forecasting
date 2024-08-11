@@ -1,3 +1,4 @@
+import pandas as pd
 df = pd.read_csv('stock_forecast.csv')
 
 # Convertir la columna 'ds' a tipo datetime
