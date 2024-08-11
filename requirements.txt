@@ -1,4 +1,4 @@
 yfinance==0.2.26
 prophet==1.1.5
 datetime
-numpy==1.23.5 
+numpy==1.23.5
