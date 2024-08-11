@@ -22,7 +22,7 @@ st.title('Pronóstico de Acciones')
 ticker = st.selectbox('Selecciona una acción:', options=tickers)
 
 # Input de fecha de inicio y fin
-start_date = st.date_input('Fecha de inicio', min_value=pd.to_datetime('2022-01-01'), max_value=pd.to_datetime('2024-08-09'))
+start_date = st.date_input('Fecha de inicio', min_value=pd.to_datetime('2022-01-01'), max_value=pd.to_datetime('2024-08-31'))
 end_date = st.date_input('Fecha de fin', min_value=start_date, max_value=pd.to_datetime('2024-08-09'))
 
 # Input de número de días de pronóstico
