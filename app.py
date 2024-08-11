@@ -27,18 +27,27 @@ forecast_filtered_df = filtered_df.tail(forecast_days)
 # Gráficas
 st.subheader('Gráfica de Valores Reales y Pronósticos')
 
-fig, ax = plt.subplots(figsize=(10, 6))
+# Configurar el estilo de las gráficas
+plt.style.use('seaborn-darkgrid')
+
+fig, ax = plt.subplots(figsize=(12, 8))
+
+# Colores para cada ticker
+colors = {'AAPL': 'blue', 'MSFT': 'green', 'AMZN': 'orange'}
 
 # Graficar los valores reales y pronósticos para cada ticker
 tickers = ['AAPL', 'MSFT', 'AMZN']
 for ticker in tickers:
-    ax.plot(filtered_df['ds'], filtered_df[f'{ticker}_real'], label=f'{ticker} Real')
-    ax.plot(forecast_filtered_df['ds'], forecast_filtered_df[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico')
+    ax.plot(filtered_df['ds'], filtered_df[f'{ticker}_real'], label=f'{ticker} Real', color=colors[ticker], linewidth=2)
+    ax.plot(forecast_filtered_df['ds'], forecast_filtered_df[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico', color=colors[ticker], linewidth=2)
 
-ax.set_xlabel('Fecha')
-ax.set_ylabel('Precio Ajustado')
-ax.set_title('Pronóstico vs Real')
-ax.legend()
-plt.xticks(rotation=45)
+# Personalizar la gráfica
+ax.set_xlabel('Fecha', fontsize=14)
+ax.set_ylabel('Precio Ajustado', fontsize=14)
+ax.set_title('Pronóstico vs Real', fontsize=18, fontweight='bold')
+ax.legend(loc='upper left', fontsize=12)
+ax.grid(True, linestyle='--', linewidth=0.5)
+plt.xticks(rotation=45, fontsize=12)
+plt.yticks(fontsize=12)
 
 st.pyplot(fig)
