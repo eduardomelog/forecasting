@@ -53,3 +53,5 @@ plt.xticks(rotation=45, fontsize=12)
 plt.yticks(fontsize=12)
 
 st.pyplot(fig)
+
+display(filtered_df)
