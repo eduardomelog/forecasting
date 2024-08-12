@@ -21,7 +21,7 @@ df_before_date = df[df['ds'] < pd.to_datetime('2024-08-10')]
 st.title('Stock Forecast Visualization')
 
 # Add a hyperlink to the GitHub repository
-st.markdown("[GitHub Repository](https://github.com/eduardomelog/forecasting)")
+st.markdown("[GitHub Repository](https://github.com/eduardomelog/forecast)")
 
 # Selectbox to choose a stock
 ticker = st.selectbox('Select a stock:', options=['MSFT', 'AAPL', 'AMZN', 'GOOGL', 'META'])
