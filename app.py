@@ -23,9 +23,6 @@ st.title('Stock Forecast Visualization')
 # Selectbox to choose a stock
 ticker = st.selectbox('Select a stock:', options=['MSFT', 'AAPL', 'AMZN', 'GOOGL', 'META'])
 
-# Complete graph before 2024-08-10
-st.subheader(f'Real and Forecasted Values for {ticker} (Before 2024-08-10)')
-
 fig, ax = plt.subplots(figsize=(12, 8))
 
 # Plot the real and forecasted values for the selected stock before 2024-08-10
@@ -42,9 +39,6 @@ plt.xticks(rotation=45, fontsize=12)
 plt.yticks(fontsize=12)
 
 st.pyplot(fig)
-
-# Graph for the last two months
-st.subheader(f'Real and Forecasted Values for {ticker} (Last 2 Months)')
 
 # Filter data for the last two months
 two_months_ago = df['ds'].max() - pd.DateOffset(months=2)
