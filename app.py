@@ -21,7 +21,7 @@ df_before_date = df[df['ds'] < pd.to_datetime('2024-08-10')]
 st.title('Visualización de Pronóstico de Acciones')
 
 # Selectbox para escoger una acción
-ticker = st.selectbox('Selecciona una acción:', options=['AAPL', 'MSFT', 'AMZN'])
+ticker = st.selectbox('Selecciona una acción:', options=['MSFT', 'AAPL', 'AMZN', 'GOOGL', 'META'])
 
 # Gráfica completa antes del 10-08-2024
 st.subheader(f'Gráfica de Valores Reales y Pronósticos para {ticker} (Antes del 10-08-2024)')
