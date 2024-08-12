@@ -17,12 +17,3 @@ This project demonstrates the implementation of a stock price forecasting model 
 2. **Model Training**: Prophet models are trained on the historical data, and forecasts are generated.
 3. **Visualization**: The Streamlit app provides an interface for users to explore the data and forecasts through interactive plots.
 4. **Output**: The combined results, including historical data and forecasts, are saved to a CSV file for further analysis or visualization.
-
-## Installation
-
-To run this project locally, clone the repository and install the required packages:
-
-```bash
-git clone https://github.com/yourusername/stock-forecasting.git
-cd stock-forecasting
-pip install -r requirements.txt
