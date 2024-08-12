@@ -9,7 +9,7 @@ df = pd.read_csv('stock_forecast.csv')
 # Convertir la columna 'ds' a tipo datetime
 df['ds'] = pd.to_datetime(df['ds'])
 
-# Establecer los valores reales como null si la fecha es anterior al 10-08-2024
+# Establecer los valores de pronóstico como null si la fecha es anterior al 10-08-2024
 mask = df['ds'] < pd.to_datetime('2024-08-10')
 tickers = ['AAPL', 'MSFT', 'AMZN']
 for ticker in tickers:
@@ -21,9 +21,14 @@ st.title('Pronóstico de Acciones')
 # Selectbox para escoger una acción
 ticker = st.selectbox('Selecciona una acción:', options=tickers)
 
-# Input de fecha de inicio y fin
-start_date = st.date_input('Fecha de inicio', min_value=pd.to_datetime('2022-01-01'), max_value=pd.to_datetime('2024-08-30'))
-end_date = st.date_input('Fecha de fin', min_value=start_date, max_value=pd.to_datetime('2024-08-11'))
+# Botón para seleccionar las fechas óptimas
+if st.button('Usar fechas óptimas'):
+    start_date = df['ds'].min()
+    end_date = df['ds'].max()
+else:
+    # Input de fecha de inicio y fin
+    start_date = st.date_input('Fecha de inicio', min_value=pd.to_datetime('2022-01-01'), max_value=pd.to_datetime('2024-08-09'))
+    end_date = st.date_input('Fecha de fin', min_value=start_date, max_value=pd.to_datetime('2024-08-09'))
 
 # Input de número de días de pronóstico
 forecast_days = st.slider('Número de días para el pronóstico', min_value=1, max_value=30, value=10)
@@ -53,5 +58,3 @@ plt.xticks(rotation=45, fontsize=12)
 plt.yticks(fontsize=12)
 
 st.pyplot(fig)
-
-df
