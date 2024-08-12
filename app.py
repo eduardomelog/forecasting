@@ -13,7 +13,7 @@ df['ds'] = pd.to_datetime(df['ds'])
 mask = df['ds'] < pd.to_datetime('2024-08-10')
 tickers = ['AAPL', 'MSFT', 'AMZN']
 for ticker in tickers:
-    df.loc[mask, f'{ticker}_real'] = np.nan
+    df.loc[mask, f'{ticker}_forecast'] = np.nan
 
 # Título de la aplicación
 st.title('Pronóstico de Acciones')
