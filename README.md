@@ -1,6 +1,6 @@
 # Stock Price Forecasting with Prophet and Streamlit
 
-[![forecastsite](images/site.png)](https://forecasting-ugz5idd8nj23iobvhqkysw.streamlit.app/)
+[![forecastsite](images/site.png)](https://forecasting-693uh2tq9tsiqytf57ixfn.streamlit.app/)
 
 ## Overview
 
