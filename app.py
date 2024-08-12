@@ -32,7 +32,7 @@ ax.plot(df_before_date['ds'], df_before_date[f'{ticker}_forecast'], linestyle='-
 # Customize the graph
 ax.set_xlabel('Date', fontsize=14)
 ax.set_ylabel('Adjusted Price', fontsize=14)
-ax.set_title(f'Forecast vs Real for {ticker} (Before 2024-08-10)', fontsize=18, fontweight='bold')
+ax.set_title(f'Real stock values for {ticker}', fontsize=18, fontweight='bold')
 ax.legend(loc='upper left', fontsize=12)
 ax.grid(True, linestyle='--', linewidth=0.5)
 plt.xticks(rotation=45, fontsize=12)
