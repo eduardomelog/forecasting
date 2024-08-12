@@ -1,5 +1,7 @@
 # Stock Price Forecasting with Prophet and Streamlit
 
+[![forecastsite](images/site.png)](https://forecasting-ugz5idd8nj23iobvhqkysw.streamlit.app/)
+
 ## Overview
 
 This project demonstrates the implementation of a stock price forecasting model using [Prophet](https://github.com/facebook/prophet) and its deployment via a [Streamlit](https://streamlit.io/) web application. The application provides users with the ability to visualize both historical and forecasted stock prices for major companies.
