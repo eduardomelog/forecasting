@@ -20,7 +20,7 @@ st.title('Visualización de Pronóstico de Acciones')
 # Selectbox para escoger una acción
 ticker = st.selectbox('Selecciona una acción:', options=['AAPL', 'MSFT', 'AMZN'])
 
-# Gráficas
+# Gráfica completa
 st.subheader(f'Gráfica de Valores Reales y Pronósticos para {ticker}')
 
 fig, ax = plt.subplots(figsize=(12, 8))
@@ -33,6 +33,30 @@ ax.plot(df['ds'], df[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pro
 ax.set_xlabel('Fecha', fontsize=14)
 ax.set_ylabel('Precio Ajustado', fontsize=14)
 ax.set_title(f'Pronóstico vs Real para {ticker}', fontsize=18, fontweight='bold')
+ax.legend(loc='upper left', fontsize=12)
+ax.grid(True, linestyle='--', linewidth=0.5)
+plt.xticks(rotation=45, fontsize=12)
+plt.yticks(fontsize=12)
+
+st.pyplot(fig)
+
+# Gráfica de los últimos dos meses
+st.subheader(f'Gráfica de Valores Reales y Pronósticos para {ticker} (Últimos 2 Meses)')
+
+# Filtrar los datos para los últimos dos meses
+two_months_ago = df['ds'].max() - pd.DateOffset(months=2)
+df_last_two_months = df[df['ds'] >= two_months_ago]
+
+fig, ax = plt.subplots(figsize=(12, 8))
+
+# Graficar los valores reales y pronósticos para la acción seleccionada en los últimos dos meses
+ax.plot(df_last_two_months['ds'], df_last_two_months[f'{ticker}_real'], label=f'{ticker} Real', linewidth=2, color='blue')
+ax.plot(df_last_two_months['ds'], df_last_two_months[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico', linewidth=2, color='orange')
+
+# Personalizar la gráfica
+ax.set_xlabel('Fecha', fontsize=14)
+ax.set_ylabel('Precio Ajustado', fontsize=14)
+ax.set_title(f'Pronóstico vs Real para {ticker} (Últimos 2 Meses)', fontsize=18, fontweight='bold')
 ax.legend(loc='upper left', fontsize=12)
 ax.grid(True, linestyle='--', linewidth=0.5)
 plt.xticks(rotation=45, fontsize=12)
