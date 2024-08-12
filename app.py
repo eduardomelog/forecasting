@@ -14,25 +14,28 @@ mask = df['ds'] < pd.to_datetime('2024-08-10')
 forecast_columns = [col for col in df.columns if 'forecast' in col]
 df.loc[mask, forecast_columns] = np.nan
 
+# Filtrar datos para mostrar solo aquellos antes del 10-08-2024 en el primer gráfico
+df_before_date = df[df['ds'] < pd.to_datetime('2024-08-10')]
+
 # Título de la aplicación
 st.title('Visualización de Pronóstico de Acciones')
 
 # Selectbox para escoger una acción
 ticker = st.selectbox('Selecciona una acción:', options=['AAPL', 'MSFT', 'AMZN'])
 
-# Gráfica completa
-st.subheader(f'Gráfica de Valores Reales y Pronósticos para {ticker}')
+# Gráfica completa antes del 10-08-2024
+st.subheader(f'Gráfica de Valores Reales y Pronósticos para {ticker} (Antes del 10-08-2024)')
 
 fig, ax = plt.subplots(figsize=(12, 8))
 
-# Graficar los valores reales y pronósticos para la acción seleccionada
-ax.plot(df['ds'], df[f'{ticker}_real'], label=f'{ticker} Real', linewidth=2, color='blue')
-ax.plot(df['ds'], df[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico', linewidth=2, color='orange')
+# Graficar los valores reales y pronósticos para la acción seleccionada antes del 10-08-2024
+ax.plot(df_before_date['ds'], df_before_date[f'{ticker}_real'], label=f'{ticker} Real', linewidth=2, color='blue')
+ax.plot(df_before_date['ds'], df_before_date[f'{ticker}_forecast'], linestyle='--', label=f'{ticker} Pronóstico', linewidth=2, color='orange')
 
 # Personalizar la gráfica
 ax.set_xlabel('Fecha', fontsize=14)
 ax.set_ylabel('Precio Ajustado', fontsize=14)
-ax.set_title(f'Pronóstico vs Real para {ticker}', fontsize=18, fontweight='bold')
+ax.set_title(f'Pronóstico vs Real para {ticker} (Antes del 10-08-2024)', fontsize=18, fontweight='bold')
 ax.legend(loc='upper left', fontsize=12)
 ax.grid(True, linestyle='--', linewidth=0.5)
 plt.xticks(rotation=45, fontsize=12)
